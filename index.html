@@ -4,31 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="AgajiHub - Hanyar Taimakon Gaggawa da Kare Rayuka | Emergency Support and Life-Saving Assistance">
-    <!-- Removed purple theme: force status bar to green, kill tap highlight -->
     <meta name="theme-color" content="#0D7C4B">
-    <meta name="android-theme-color" content="#0D7C4B">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
     <title>AgajiHub - Taimakon Gaggawa & Koyon Ceton Rai</title>
     <style>
-        /* REMOVE PURPLE DEFAULT ANDROID STYLES */
-        * {
-            -webkit-tap-highlight-color: transparent !important;
-            outline-color: transparent !important;
-        }
-        html, body {
-            background: var(--bg) !important;
-            margin: 0;
-            padding: 0;
-        }
-        :focus-visible {
-            outline: 2px solid var(--primary) !important;
-            outline-offset: 2px;
-        }
-
-        /* ---------- Your original styles (unchanged) ---------- */
         :root {
             --green-50: #ecfdf5; --green-100: #d1fae5; --green-600: #059669; --green-700: #047857;
             --blue-50: #eff6ff; --blue-600: #2563eb; --red-50: #fef2f2; --red-100: #fee2e2; --red-600: #dc2626;
@@ -55,6 +36,8 @@
         body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; transition: background var(--transition), color var(--transition); padding-bottom: calc(var(--nav-height) + 16px); user-select: none; -webkit-user-select: none; }
         img { max-width: 100%; height: auto; display: block; }
         button { cursor: pointer; font-family: var(--font); border: none; outline: none; -webkit-tap-highlight-color: transparent; }
+        :focus-visible { outline: 2.5px solid var(--secondary); outline-offset: 3px; border-radius: 6px; }
+
         /* Animations */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -133,6 +116,7 @@
         .mv-label { font-weight: 800; font-size: 0.95rem; color: var(--text); margin-bottom: 4px; letter-spacing: -0.2px; }
         .mv-text { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
 
+        /* About page */
         .about-content { background: var(--card-bg); border-radius: var(--radius-lg); padding: 18px 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); animation: fadeInUp 0.4s ease; }
         .about-content p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px; }
         .about-content p:last-child { margin-bottom: 0; }
@@ -187,10 +171,13 @@
         .stat-number { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
         .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
 
+        /* ===== Inline SVG icon helper ===== */
         .icon-inline { width: 1.1em; height: 1.1em; vertical-align: -0.18em; flex-shrink: 0; }
         .icon-inline.lg { width: 1.4em; height: 1.4em; }
+        /* Fix icons that previously had no intrinsic size and rendered too large */
         .settings-item-left svg, .modal-icon-wrap svg { width: 22px; height: 22px; }
 
+        /* Icon badges for cards (quick actions, essentials, lessons) */
         .card-icon { width: 42px; height: 42px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; transition: transform var(--transition); }
         .card-icon svg { width: 22px; height: 22px; }
         .card:hover .card-icon { transform: scale(1.08) rotate(-3deg); }
@@ -203,6 +190,7 @@
         [data-theme="dark"] .card-icon.blue { background: rgba(37,99,235,0.18); }
         [data-theme="dark"] .card-icon.amber { background: rgba(217,119,6,0.18); }
 
+        /* Lesson hero icon colors */
         .lesson-hero-icon { background: var(--green-100); color: var(--green-600); }
         .lesson-hero-icon svg { width: 26px; height: 26px; }
         .lesson-hero-icon.red { background: var(--red-50); color: var(--red-600); }
@@ -214,21 +202,26 @@
         [data-theme="dark"] .lesson-hero-icon.blue { background: rgba(37,99,235,0.18); }
         [data-theme="dark"] .lesson-hero-icon.amber { background: rgba(217,119,6,0.18); }
 
+        /* Mission/Vision icons */
         .mv-icon { width: 42px; height: 42px; min-width: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--green-100); color: var(--primary); }
         .mv-icon svg { width: 22px; height: 22px; }
         .mv-icon.vision { background: var(--blue-50); color: var(--secondary); }
         [data-theme="dark"] .mv-icon { background: rgba(5,150,105,0.18); }
         [data-theme="dark"] .mv-icon.vision { background: rgba(37,99,235,0.18); }
 
+        /* Facility icon */
         .facility-icon-sm { width: 38px; height: 38px; min-width: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--green-100); color: var(--primary); }
         .facility-icon-sm svg { width: 20px; height: 20px; }
         [data-theme="dark"] .facility-icon-sm { background: rgba(5,150,105,0.18); }
 
+        /* Search icons */
         .search-icon-wrap { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); display: flex; pointer-events: none; }
         .search-icon-wrap svg { width: 18px; height: 18px; }
 
+        /* Back button icon */
         .back-btn svg { width: 16px; height: 16px; }
 
+        /* Bottom nav icons */
         .nav-item svg { width: 22px; height: 22px; }
         .video-thumb-area svg { width: 52px; height: 52px; transition: transform var(--transition); }
         .video-thumb-area:active svg, .video-thumb-area.tapped svg { transform: scale(0.85); animation: pulse 0.4s ease; }
@@ -237,29 +230,78 @@
         .learn-do, .learn-dont { display: flex; align-items: flex-start; gap: 6px; }
         .learn-do svg, .learn-dont svg { margin-top: 2px; }
 
+        /* ===== Page transition animation ===== */
         .page-section { display: none; opacity: 0; transform: translateY(14px); }
         .page-section.active { display: block; animation: pageEnter 0.32s cubic-bezier(0.22,1,0.36,1) forwards; }
         @keyframes pageEnter { to { opacity: 1; transform: translateY(0); } }
 
+        /* ===== Ripple effect for tappable elements ===== */
         .ripple-target { position: relative; overflow: hidden; }
         .ripple { position: absolute; border-radius: 50%; background: rgba(13,124,75,0.25); transform: scale(0); animation: rippleAnim 0.55s ease-out; pointer-events: none; }
         [data-theme="dark"] .ripple { background: rgba(52,211,153,0.25); }
         @keyframes rippleAnim { to { transform: scale(2.6); opacity: 0; } }
 
+        /* ===== Nav item icon micro-animation ===== */
         .nav-item svg { transition: transform var(--transition); }
         .nav-item.active-nav svg { transform: translateY(-2px) scale(1.08); animation: bounceIn 0.4s ease; }
 
+        /* ===== Settings chevron + back button polish ===== */
         .settings-chevron { transition: transform var(--transition); color: var(--text-muted); }
         .settings-item:hover .settings-chevron { transform: translateX(3px); color: var(--primary); }
         .back-btn:active { transform: scale(0.95); }
         .back-btn svg { transition: transform var(--transition); }
         .back-btn:hover svg { transform: translateX(-3px); }
+
+        /* ===== ENHANCED LANGUAGE BUTTON STYLES (only addition) ===== */
+        .lang-toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(13,124,75,0.12);
+            backdrop-filter: blur(4px);
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--primary);
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(13,124,75,0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            cursor: pointer;
+        }
+        .lang-toggle-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s ease;
+        }
+        .lang-toggle-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(13,124,75,0.25);
+            border-color: transparent;
+        }
+        .lang-toggle-btn:hover svg {
+            stroke: white;
+            transform: rotate(6deg);
+        }
+        .lang-toggle-btn:active {
+            transform: scale(0.96);
+        }
+        [data-theme="dark"] .lang-toggle-btn {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            border-color: rgba(52,211,153,0.4);
+        }
+        [data-theme="dark"] .lang-toggle-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <!-- ======== THE ENTIRE ORIGINAL BODY (unchanged) ======== -->
     <div id="splashScreen" aria-label="Splash Screen">
-        <div class="splash-logo-wrap"><img src="logo.png" alt="AgajiHub Logo" width="70" height="70"></div>
+        <div class="splash-logo-wrap"><img src="logo.png" alt="AgajiHub Logo" width="70" height="70" id="splashLogoImg"></div>
         <div class="splash-name">AgajiHub</div>
         <div class="splash-tagline" id="splashTagline">Hanyar Taimakon Gaggawa da Kare Rayuka</div>
         <div class="splash-buttons">
@@ -271,7 +313,7 @@
 
     <div id="appShell">
         <header class="app-header">
-            <div class="header-brand" id="headerBrand"><div class="header-logo-sm"><img src="logo.png" alt="Logo"></div><span class="header-title">AgajiHub</span></div>
+            <div class="header-brand" id="headerBrand"><div class="header-logo-sm"><img src="logo.png" alt="Logo" id="headerLogoImg"></div><span class="header-title">AgajiHub</span></div>
             <div class="header-actions">
                 <button class="lang-toggle-btn" id="langToggleBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10"/></svg><span id="langLabel">English</span></button>
             </div>
@@ -280,16 +322,16 @@
         <!-- HOME PAGE -->
         <section class="page-section active" id="pageHome" data-page="home">
             <div class="hero-section">
-                <div class="hero-image-wrap"><img src="hero.jpg" alt="Emergency response" class="hero-image"></div>
+                <div class="hero-image-wrap"><img src="hero.jpg" alt="Emergency response" class="hero-image" id="heroImage"></div>
                 <div class="hero-content">
-                    <div class="hero-logo-lg"><img src="logo.png" alt="Logo"></div>
+                    <div class="hero-logo-lg"><img src="logo.png" alt="Logo" id="heroLogoImg"></div>
                     <h1 class="hero-title">AgajiHub</h1>
                     <p class="hero-tagline" id="heroTagline">Hanyar Taimakon Gaggawa da Kare Rayuka</p>
                     <button class="emergency-call-btn" id="emergencyCallBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 012.12 4.18 2 2 0 014.1 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg><span id="emergencyCallText">Kira 112</span></button>
                 </div>
             </div>
             <div class="golden-rule-card"><strong id="goldenRuleTitle"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> <span id="goldenRuleTitleText">Ka'idar Zinariya Ta AgajiHub</span></strong><div class="golden-rule-steps"><div class="golden-step"><div class="golden-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="golden-step-label">KARE</span></div><div class="golden-step"><div class="golden-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.8 19.8 0 015.07 8.28a2 2 0 01-.45-2.11L5.89 4.9A2 2 0 018 4.17L9.27 5.44a2 2 0 01.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg></div><span class="golden-step-label">KIRA</span></div><div class="golden-step"><div class="golden-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><span class="golden-step-label">TAIMAKA</span></div></div></div>
-            <div class="search-bar-wrap"><span class="search-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="search" class="search-bar" id="searchBar" placeholder="Me kake son koya ko nema?"></div>
+            <div class="search-bar-wrap"><span class="search-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="search" class="search-bar" id="searchBar" data-placeholder-ha="Me kake son koya ko nema?" data-placeholder-en="What would you like to learn or find?" placeholder="Me kake son koya ko nema?"></div>
 
             <h2 class="section-heading" id="mvHeading">Manufa & Hangen Nesa</h2>
             <div class="mission-vision-grid">
@@ -382,6 +424,28 @@
     <div class="toast" id="toast" aria-live="polite"></div>
 
     <script>
+        // ===== IMAGE FALLBACK TO SVG (added) =====
+        (function setupImageFallback() {
+            const logoSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230D7C4B'/%3E%3Ctext x='50' y='67' font-size='50' text-anchor='middle' fill='white'%3E🚑%3C/text%3E%3C/svg%3E";
+            const heroSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect width='400' height='180' fill='%231f2937'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='24'%3EAgajiHub Emergency%3C/text%3E%3C/svg%3E";
+            const allImages = document.querySelectorAll('img');
+            allImages.forEach(img => {
+                img.onerror = function() {
+                    if (img.src.includes('logo.png') || img.alt?.includes('Logo')) {
+                        img.src = logoSVG;
+                    } else if (img.classList.contains('hero-image')) {
+                        img.src = heroSVG;
+                    } else {
+                        img.src = logoSVG;
+                    }
+                    img.style.objectFit = 'contain';
+                };
+                if (img.complete && img.naturalWidth === 0) {
+                    img.onerror();
+                }
+            });
+        })();
+
         (function() {
             const tData = {
                 ha: {
@@ -679,6 +743,7 @@
             const savedLang = localStorage.getItem('agajiLang'); if(savedLang==='en'){ setLanguage('en'); document.getElementById('splashTagline').textContent = tData.en.splashTagline; }
             buildLessonPages(); renderQuickActions(); renderEssentials(); renderFacilities(); renderLearnLessonCards();
 
+            // Ripple tap feedback for interactive elements
             document.body.addEventListener('click', function(e){
                 const el = e.target.closest('.card, .nav-item, .settings-item, button, .facility-item');
                 if(!el) return;
